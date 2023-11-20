@@ -7,8 +7,13 @@
 ## Professor: João Robson
 ## Alunos: 
 • Brunno Calado  
+
 • Gustavo Jesus
+
 • Polyana Amorim
+
 • Carlos Eduardo
+
 • João Marcos
+
 • Matheus Figueiredo
