@@ -16,4 +16,4 @@ O projeto consiste em um playlist, com as funções básicas de uma playlist gen
 
 • João Marcos
 
-• Matheus Figueiredo
+• Matheus Figueredo
