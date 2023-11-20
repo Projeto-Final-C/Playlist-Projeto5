@@ -34,3 +34,33 @@ void inserirMusica(struct Musica playlist[], int *numMusicas) {
         printf("A playlist esta cheia. Remova musicas antes de adicionar novas.\n");
     }
 }
+
+//oiii gente, coloquei do jeito q a gtn combinou, minha parte de funcao, so pra mostrar msm!!
+void mostrarPlaylist(struct Musica playlist[], int numMusicas) {
+    printf("\nPlaylist:\n");
+    for (int i = 0; i < numMusicas; i++) {
+        printf("%d. %s - %s", i + 1, playlist[i].artista, playlist[i].titulo);
+        if (playlist[i].favorita) {
+            printf(" (Favoritada)");
+        }
+        printf("\n");
+    }
+}
+
+//essa aqui so vai buscar a musica na playlist, p professor nao falou como, ai busca pelo nome e pelo autor
+void buscarMusica(struct Musica playlist[], int numMusicas) {
+    char busca[50];
+    printf("Digite o titulo ou artista da musica a ser buscada: ");
+    scanf(" %[^\n]", busca);
+
+    printf("\nResultados da busca:\n");
+    for (int i = 0; i < numMusicas; i++) {
+        if (strstr(playlist[i].titulo, busca) || strstr(playlist[i].artista, busca)) {
+            printf("%d. %s - %s", i + 1, playlist[i].artista, playlist[i].titulo);
+            if (playlist[i].favorita) {
+                printf(" (Favorita)");
+            }
+            printf("\n");
+        }
+    }
+}
