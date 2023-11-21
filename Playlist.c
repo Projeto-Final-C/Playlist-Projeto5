@@ -64,3 +64,25 @@ void buscarMusica(struct Musica playlist[], int numMusicas) {
         }
     }
 }
+
+// Função que vai editar as informações das músicas
+void editarMusica(struct Musica playlist[], int numMusicas) {
+    
+    int indice;
+    printf("Digite o numero da musica a ser editada: ");
+    scanf("%d", &indice);
+
+    // Verifica se o número da música está dentro do intervalo válido
+    if (indice >= 1 && indice <= numMusicas) {
+
+        printf("Digite o novo titulo da musica: ");
+        scanf(" %[^\n]", playlist[indice - 1].titulo);
+
+        printf("Digite o novo nome do artista: ");
+        scanf(" %[^\n]", playlist[indice - 1].artista);
+      
+        printf("Informações da musica editadas com sucesso!\n");
+    } else {
+        printf("Numero invalido.\n");
+    }
+}
