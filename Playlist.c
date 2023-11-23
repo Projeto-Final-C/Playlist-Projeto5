@@ -86,3 +86,19 @@ void editarMusica(struct Musica playlist[], int numMusicas) {
         printf("Numero invalido.\n");
     }
 }
+//Exclui a musica que quiser
+void removerMusica(struct Musica playlist[], int *numMusicas) {
+    int indice;
+    printf("Digite o numero da musica a ser removida: ");
+    scanf("%d", &indice);
+
+    if (indice >= 1 && indice <= *numMusicas) {
+        for (int i = indice - 1; i < *numMusicas - 1; i++) {
+            playlist[i] = playlist[i + 1];
+        }
+        (*numMusicas)--;
+        printf("Musica removida com sucesso!\n");
+    } else {
+        printf("Numero invalido.\n");
+    }
+}
