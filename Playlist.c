@@ -102,3 +102,21 @@ void removerMusica(struct Musica playlist[], int *numMusicas) {
         printf("Numero invalido.\n");
     }
 }
+
+//Talvez favorite a musica, tem que testar :(
+void favoritarMusica(struct Musica playlist[], int numMusicas) {
+    int indice;
+    printf("Digite o numero da musica a ser favoritada/desfavoritada: ");
+    scanf("%d", &indice);
+
+    if (indice >= 1 && indice <= numMusicas) {
+        playlist[indice - 1].favorita = !playlist[indice - 1].favorita;
+        if (playlist[indice - 1].favorita) {
+            printf("Musica favoritada com sucesso!\n");
+        } else {
+            printf("Musica desfavoritada com sucesso!\n");
+        }
+    } else {
+        printf("Numero invalido.\n");
+    }
+}
