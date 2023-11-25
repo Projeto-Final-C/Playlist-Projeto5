@@ -140,3 +140,64 @@ void salvarPlaylist(struct Musica playlist[], int numMusicas, char nomePessoa[])
         printf("Erro ao abrir o arquivo para salvar.\n");
     }
 }
+// so juntei tudo e tentei incluir tudo, acho que foi.
+int main() {
+    struct Musica playlist[MAX_MUSICAS];
+    int numMusicas = 0;
+    int opcao;
+
+    char nomePessoa[MAX_NOME];
+
+    printf("Digite o seu nome: ");
+    scanf(" %[^\n]", nomePessoa);
+
+    do {
+         printf("\n=== MENU ===\n");
+        printf("1. Inserir nova musica\n");
+        printf("2. Mostrar musicas cadastradas\n");
+        printf("3. Buscar por uma musica\n");
+        printf("4. Editar informacoes de uma musica \n");
+        printf("5. Remover musica\n");
+        printf("6. Favoritar/Desfavoritar musica\n");
+        printf("7. Salvar playlist em um arquivo\n");
+        printf("8. Sair\n");
+        printf("Escolha uma opcao: ");
+
+
+
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                inserirMusica(playlist, &numMusicas);
+                break;
+            case 2:
+                mostrarPlaylist(playlist, numMusicas);
+                break;
+            case 3:
+                buscarMusica(playlist, numMusicas);
+                break;
+            case 4:
+                editarMusica(playlist, numMusicas);
+                break;
+            case 5:
+                removerMusica(playlist, &numMusicas);
+                break;
+            case 6:
+                favoritarMusica(playlist, numMusicas);
+                break;
+            case 7:
+                salvarPlaylist(playlist, numMusicas, nomePessoa);
+                break;
+            case 8:
+                printf("Saindo do programa. Ate mais!\n");
+
+
+                break;
+            default:
+                printf("Opção invalida. Tente novamente.\n");
+        }
+    } while (opcao != 8);
+
+    return 0;
+}
