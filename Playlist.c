@@ -120,3 +120,23 @@ void favoritarMusica(struct Musica playlist[], int numMusicas) {
         printf("Numero invalido.\n");
     }
 }
+
+// Parte dificil... salva a playlist na pasta output dentro de onde o arquivo todo ta, demorei mas achei onde salva
+void salvarPlaylist(struct Musica playlist[], int numMusicas, char nomePessoa[]) {
+    char nomeArquivo[100];  // Tamanho arbitrário para garantir espaço suficiente
+    sprintf(nomeArquivo, "Playlist de %s.txt", nomePessoa);
+
+    FILE *arquivo = fopen(nomeArquivo, "w");
+
+    if (arquivo != NULL) {
+        for (int i = 0; i < numMusicas; i++) {
+            fprintf(arquivo, "%s - %s - %d\n", playlist[i].titulo, playlist[i].artista, playlist[i].favorita);
+        }
+
+        fclose(arquivo);
+
+        printf("Playlist salva com sucesso como \"%s\"!\n", nomeArquivo);
+    } else {
+        printf("Erro ao abrir o arquivo para salvar.\n");
+    }
+}
