@@ -1,8 +1,8 @@
-// fiz só esse comecinho do jeito que a gnt combinou pra ficar mais fácil
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
+// Definindo a estrutura Musica
 typedef struct Musica
 {
     char titulo[50];
@@ -10,8 +10,7 @@ typedef struct Musica
     int favorita;
 } Musica;
 
-// Botei essa primeira parte de colocar música na playlist,
-// Agora a playlist é um ponteiro
+// Coloquei essa primeira parte de inserir músicas na playlist.
 void inserirMusica(struct Musica **playlist, int *numMusicas, int *tamanhoPlaylist)
 {
     // Se a playlist estiver cheia, realocamos mais espaço
@@ -28,27 +27,42 @@ void inserirMusica(struct Musica **playlist, int *numMusicas, int *tamanhoPlayli
 
     struct Musica novaMusica;
 
+    // Solicitando ao usuário o informações das músicas
     printf("Digite o titulo da musica: ");
     scanf(" %[^\n]", novaMusica.titulo);
+    getchar(); // Limpando entrada
 
     printf("Digite o nome do artista: ");
     scanf(" %[^\n]", novaMusica.artista);
+    getchar(); // Limpando entrada
 
     novaMusica.favorita = 0;
 
+    // Inserindo a nova música na playlist
     (*playlist)[*numMusicas] = novaMusica;
     (*numMusicas)++;
 
-    printf("Musica inserida com sucesso!\n");
+    printf("Musica inserida com sucesso !\n");
 }
 
-// oiii gente, coloquei do jeito que a gnt combinou, minha parte de função, só pra mostrar msm!!
+// Coloquei essa função, que só vai mostrar as músicas na playlist msm!!!
 void mostrarPlaylist(struct Musica **playlist, int numMusicas)
 {
+    // Verificando se a playlist está vazia
+    if (numMusicas == 0)
+    {
+        printf("\nA sua playlist esta vazia.\n");
+        return;
+    }
+
     printf("\nPlaylist:\n");
+
     for (int i = 0; i < numMusicas; i++)
     {
-        printf("%d. %s - %s", i + 1, (*playlist)[i].artista, (*playlist)[i].titulo);
+        // Mostrando as informações das músicas
+        printf("%d. %s - %s", i + 1, (*playlist)[i].titulo, (*playlist)[i].artista);
+
+        // Verificando se a música é favorita
         if ((*playlist)[i].favorita)
         {
             printf(" (Favoritada)");
@@ -57,119 +71,160 @@ void mostrarPlaylist(struct Musica **playlist, int numMusicas)
     }
 }
 
-// Essa aqui só vai buscar a música na playlist.
+// Essa função só vai buscar a música na playlist
 void buscarMusica(struct Musica **playlist, int numMusicas)
 {
+    // Solicitando ao usuário informações de busca
     char busca[50];
     printf("Digite o titulo ou artista da musica a ser buscada: ");
     scanf(" %[^\n]", busca);
+    getchar(); // Limpando entrada
 
     printf("\nResultados da busca:\n");
+
+    int encontrou = 0;
     for (int i = 0; i < numMusicas; i++)
     {
+        // Verificando se as informações da música contém o termo de busca
         if (strstr((*playlist)[i].titulo, busca) || strstr((*playlist)[i].artista, busca))
         {
-            printf("%d. %s - %s", i + 1, (*playlist)[i].artista, (*playlist)[i].titulo);
+            printf("%d. %s - %s", i + 1, (*playlist)[i].titulo, (*playlist)[i].artista);
             if ((*playlist)[i].favorita)
             {
                 printf(" (Favorita)");
             }
             printf("\n");
+            encontrou = 1;
         }
+    }
+    if (!encontrou) // Verificando se nenhum resultado foi encontrado
+    {
+        printf("Nao foi possivel encontrar o termo \"%s\". Tente novamente !\n", busca);
     }
 }
 
 // Função que vai editar as informações das músicas
 void editarMusica(struct Musica **playlist, int numMusicas)
 {
-
+    // Solicitando ao usuário o número da música a ser editada
     int indice;
     printf("Digite o numero da musica a ser editada: ");
     scanf("%d", &indice);
+    getchar(); // Limpando entrada
 
-    // Verifica se o número da música está dentro do intervalo válido
+    // Verificando se o número da música está dentro do intervalo válido
     if (indice >= 1 && indice <= numMusicas)
     {
-
         printf("Digite o novo titulo da musica: ");
         scanf(" %[^\n]", (*playlist)[indice - 1].titulo);
+        getchar();
 
         printf("Digite o novo nome do artista: ");
         scanf(" %[^\n]", (*playlist)[indice - 1].artista);
+        getchar();
 
-        printf("Informacoes da musica editadas com sucesso!\n");
+        printf("Informacoes da musica foram editadas com sucesso !\n");
     }
     else
     {
-        printf("Numero invalido. Tente novamente.\n");
+        printf("Numero invalido. Tente novamente !\n");
     }
 }
 
-// Exclui a música que quiser
+// Exclui a música que o usuário quiser
 void removerMusica(struct Musica **playlist, int *numMusicas)
 {
+    // Solicitando ao usuário o número da música a ser removida
     int indice;
     printf("Digite o numero da musica a ser removida: ");
     scanf("%d", &indice);
+    getchar(); // Limpando entrada
 
+    // Verificando se o índice está dentro do intervalo válido
     if (indice >= 1 && indice <= *numMusicas)
     {
+        // Movendo todas as músicas uma posição para trás
         for (int i = indice - 1; i < *numMusicas - 1; i++)
         {
             (*playlist)[i] = (*playlist)[i + 1];
         }
         (*numMusicas)--;
-        printf("Musica removida com sucesso!\n");
+        printf("Musica removida com sucesso !\n");
     }
     else
     {
-        printf("Numero invalido. Tente novamente.\n");
+        printf("Numero invalido. Tente novamente !\n");
     }
 }
 
 // Função que vai favoritar as músicas
 void favoritarMusica(struct Musica **playlist, int numMusicas)
 {
+    // Solicitando ao usuário o número da música a ser favoritada/desfavoritada
     int indice;
     printf("Digite o numero da musica a ser favoritada/desfavoritada: ");
     scanf("%d", &indice);
+    getchar(); // Limpando entrada
 
+    // Verificando se o índice está dentro do intervalo válido
     if (indice >= 1 && indice <= numMusicas)
-    {
+    {   
+        // Alternando o status de favorito da música
         (*playlist)[indice - 1].favorita = !(*playlist)[indice - 1].favorita;
+
+        // Verificando se a música é favorita
         if ((*playlist)[indice - 1].favorita)
         {
-            printf("Musica favoritada com sucesso!\n");
+            printf("Musica favoritada com sucesso !\n");
         }
         else
         {
-            printf("Musica desfavoritada com sucesso!\n");
+            printf("Musica desfavoritada com sucesso !\n");
         }
     }
     else
     {
-        printf("Numero invalido. Tente novamente.\n");
+        printf("Numero invalido. Tente novamente !\n");
     }
 }
 
-// Parte difícil... salva a playlist na pasta output dentro de onde o arquivo todo ta.
+// Parte difícil... salva a playlist na pasta output dentro de onde o arquivo todo está.
 void salvarPlaylist(struct Musica **playlist, int numMusicas, char nomePessoa[])
 {
     char nomeArquivo[100]; // Tamanho arbitrário para garantir espaço suficiente
     sprintf(nomeArquivo, "Playlist de %s.txt", nomePessoa);
 
+    // Abrindo o arquivo para escrita
     FILE *arquivo = fopen(nomeArquivo, "w");
 
+    // Verificando se o arquivo foi aberto com sucesso
     if (arquivo != NULL)
     {
+        // Escrevendo o título da playlist no arquivo
+        fprintf(arquivo, "Playlist de %s\n\n", nomePessoa);
+
         for (int i = 0; i < numMusicas; i++)
         {
-            fprintf(arquivo, "%s - %s - %d\n", (*playlist)[i].titulo, (*playlist)[i].artista, (*playlist)[i].favorita);
+            // Escrevendo as informações das músicas no arquivo
+            fprintf(arquivo, "Música %d:\n", i + 1);
+            fprintf(arquivo, "Título: %s\n", (*playlist)[i].titulo);
+            fprintf(arquivo, "Artista: %s\n", (*playlist)[i].artista);
+            if ((*playlist)[i].favorita)
+            {
+                fprintf(arquivo, "Status: Favorita\n\n");
+            }
+            else
+            {
+                fprintf(arquivo, "\n");
+            }
         }
 
+        fprintf(arquivo, "\nFim da Playlist.\n");
+
+        // Fechando o arquivo
         fclose(arquivo);
 
-        printf("Playlist salva com sucesso como \"%s\"!\n", nomeArquivo);
+        printf("Playlist salva com sucesso como \"%s\" com %d musicas !\n", nomeArquivo, numMusicas);
     }
     else
     {
@@ -177,43 +232,69 @@ void salvarPlaylist(struct Musica **playlist, int numMusicas, char nomePessoa[])
     }
 }
 
-// Só juntei tudo e tentei incluir tudo.
+// Função que vai imprimir o menu
+void imprimirMenu()
+{
+    printf("\n+--------------------------+\n");
+    printf("|           MENU           |\n");
+    printf("+--------------------------+\n");
+    printf("| 1. Inserir nova musica   |\n");
+    printf("| 2. Mostrar musicas       |\n");
+    printf("| 3. Buscar musica         |\n");
+    printf("| 4. Editar musica         |\n");
+    printf("| 5. Remover musica        |\n");
+    printf("| 6. Favoritar musica      |\n");
+    printf("| 7. Salvar playlist       |\n");
+    printf("| 8. Sair                  |\n");
+    printf("+--------------------------+\n");
+    printf("Escolha uma opcao: ");
+}
+
+// Função que vai ler as entradas do usuário
+int lerEntrada()
+{
+    char entrada[50];
+    int opcao;
+
+    // Evitando bugs com entradas contendo letras
+    fgets(entrada, sizeof(entrada), stdin);
+    if (sscanf(entrada, "%d", &opcao) != 1)
+    {
+        printf("Opcao invalida. Tente novamente !\n");
+        opcao = 0; // Resetar "opcao"
+    }
+
+    return opcao;
+}
+
+// Só juntei tudo na função main
 int main()
 {
     int tamanhoPlaylist = 10; // Começamos com espaço para 10 músicas
-    
     struct Musica *playlist = malloc(tamanhoPlaylist * sizeof(struct Musica));
+
+    // Verificando se a memória foi alocada com sucesso
     if (playlist == NULL)
     {
         printf("Erro ao alocar memoria.\n");
         return 1;
     }
+
     int numMusicas = 0;
     int opcao;
-
     char nomePessoa[50];
 
+    // Solicitando ao usuário o nome
     printf("Digite o seu nome: ");
     scanf(" %[^\n]", nomePessoa);
+    getchar(); // Limpando entrada
 
     do
     {
-        printf("\n+--------------------------+\n");
-        printf("|           MENU           |\n");
-        printf("+--------------------------+\n");
-        printf("| 1. Inserir nova musica   |\n");
-        printf("| 2. Mostrar musicas       |\n");
-        printf("| 3. Buscar musica         |\n");
-        printf("| 4. Editar musica         |\n");
-        printf("| 5. Remover musica        |\n");
-        printf("| 6. Favoritar musica      |\n");
-        printf("| 7. Salvar playlist       |\n");
-        printf("| 8. Sair                  |\n");
-        printf("+--------------------------+\n");
-        printf("Escolha uma opcao: ");
+        imprimirMenu(); // Imprimindo o menu
+        opcao = lerEntrada(); // Lendo a entrada do usuário
 
-        scanf("%d", &opcao);
-
+        // Executando a opção escolhida pelo usuário
         switch (opcao)
         {
         case 1:
@@ -238,10 +319,10 @@ int main()
             salvarPlaylist(&playlist, numMusicas, nomePessoa);
             break;
         case 8:
-            printf("Saindo do programa. Ate mais!\n");
+            printf("Saindo do programa. Ate mais !\n");
             break;
         default:
-            printf("Opcao invalida. Tente novamente.\n");
+            printf("Opcao invalida. Tente novamente !\n");
         }
     } while (opcao != 8);
 
