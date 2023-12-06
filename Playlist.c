@@ -10,6 +10,23 @@ typedef struct Musica
     int favorita;
 } Musica;
 
+// Função que vai ler as entradas do usuário
+int lerEntrada(const char *mensagem)
+{
+    char entrada[50];
+    int opcao;
+
+    printf("%s", mensagem);
+    fgets(entrada, sizeof(entrada), stdin);
+    if (sscanf(entrada, "%d", &opcao) != 1)
+    {
+        printf("Opcao invalida. Tente novamente !\n");
+        opcao = -1; // Resetar "opcao"
+    }
+
+    return opcao;
+}
+
 // Coloquei essa primeira parte de inserir músicas na playlist.
 void inserirMusica(struct Musica **playlist, int *numMusicas, int *tamanhoPlaylist)
 {
@@ -107,10 +124,7 @@ void buscarMusica(struct Musica **playlist, int numMusicas)
 void editarMusica(struct Musica **playlist, int numMusicas)
 {
     // Solicitando ao usuário o número da música a ser editada
-    int indice;
-    printf("Digite o numero da musica a ser editada: ");
-    scanf("%d", &indice);
-    getchar(); // Limpando entrada
+    int indice = lerEntrada("Digite o numero da musica a ser editada: ");
 
     // Verificando se o número da música está dentro do intervalo válido
     if (indice >= 1 && indice <= numMusicas)
@@ -125,9 +139,9 @@ void editarMusica(struct Musica **playlist, int numMusicas)
 
         printf("Informacoes da musica foram editadas com sucesso !\n");
     }
-    else
+    else if (indice != -1)
     {
-        printf("Numero invalido. Tente novamente !\n");
+        printf("Opcao invalida. Tente novamente !\n");
     }
 }
 
@@ -135,10 +149,7 @@ void editarMusica(struct Musica **playlist, int numMusicas)
 void removerMusica(struct Musica **playlist, int *numMusicas)
 {
     // Solicitando ao usuário o número da música a ser removida
-    int indice;
-    printf("Digite o numero da musica a ser removida: ");
-    scanf("%d", &indice);
-    getchar(); // Limpando entrada
+    int indice = lerEntrada("Digite o numero da musica a ser removida: ");
 
     // Verificando se o índice está dentro do intervalo válido
     if (indice >= 1 && indice <= *numMusicas)
@@ -151,9 +162,9 @@ void removerMusica(struct Musica **playlist, int *numMusicas)
         (*numMusicas)--;
         printf("Musica removida com sucesso !\n");
     }
-    else
+    else if (indice != -1)
     {
-        printf("Numero invalido. Tente novamente !\n");
+        printf("Opcao invalida. Tente novamente !\n");
     }
 }
 
@@ -161,14 +172,11 @@ void removerMusica(struct Musica **playlist, int *numMusicas)
 void favoritarMusica(struct Musica **playlist, int numMusicas)
 {
     // Solicitando ao usuário o número da música a ser favoritada/desfavoritada
-    int indice;
-    printf("Digite o numero da musica a ser favoritada/desfavoritada: ");
-    scanf("%d", &indice);
-    getchar(); // Limpando entrada
+    int indice = lerEntrada("Digite o numero da musica a ser favoritada/desfavoritada: ");
 
     // Verificando se o índice está dentro do intervalo válido
     if (indice >= 1 && indice <= numMusicas)
-    {   
+    {
         // Alternando o status de favorito da música
         (*playlist)[indice - 1].favorita = !(*playlist)[indice - 1].favorita;
 
@@ -182,9 +190,9 @@ void favoritarMusica(struct Musica **playlist, int numMusicas)
             printf("Musica desfavoritada com sucesso !\n");
         }
     }
-    else
+    else if (indice != -1)
     {
-        printf("Numero invalido. Tente novamente !\n");
+        printf("Opcao invalida. Tente novamente !\n");
     }
 }
 
@@ -250,23 +258,6 @@ void imprimirMenu()
     printf("Escolha uma opcao: ");
 }
 
-// Função que vai ler as entradas do usuário
-int lerEntrada()
-{
-    char entrada[50];
-    int opcao;
-
-    // Evitando bugs com entradas contendo letras
-    fgets(entrada, sizeof(entrada), stdin);
-    if (sscanf(entrada, "%d", &opcao) != 1)
-    {
-        printf("Opcao invalida. Tente novamente !\n");
-        opcao = 0; // Resetar "opcao"
-    }
-
-    return opcao;
-}
-
 // Só juntei tudo na função main
 int main()
 {
@@ -292,7 +283,7 @@ int main()
     do
     {
         imprimirMenu(); // Imprimindo o menu
-        opcao = lerEntrada(); // Lendo a entrada do usuário
+        opcao = lerEntrada(""); // Lendo a entrada do usuário
 
         // Executando a opção escolhida pelo usuário
         switch (opcao)
@@ -320,6 +311,9 @@ int main()
             break;
         case 8:
             printf("Saindo do programa. Ate mais !\n");
+            break;
+        case -1:
+            // Não faz nada
             break;
         default:
             printf("Opcao invalida. Tente novamente !\n");
